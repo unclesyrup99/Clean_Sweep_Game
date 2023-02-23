@@ -11,8 +11,10 @@ if (instance_place(x,y,obj_ladder))
 	}
 }
 	else{
-		climbing = false;
-		sprite_index = spr_idle;
+		if (instance_place(x,y+1,obj_block)){
+			sprite_index = spr_idle;
+		}
+		climbing = false
 	}
 if (climbing)
 {
@@ -32,24 +34,30 @@ if (climbing)
 }
 else{
 	if (keyboard_check(vk_left) and !instance_place(x-move_speed, y, obj_block)){
-	sprite_index = spr_running
-	x += -move_speed
-	image_xscale = -1
-}
+		if (instance_place(x,y+1,obj_block)){
+			sprite_index = spr_running
+		}
+		x += -move_speed
+		image_xscale = -1
+	}
 
-if (keyboard_check(vk_right) and !instance_place(x+move_speed, y, obj_block)) {
-	sprite_index = spr_running
-	x += move_speed
-	image_xscale =1
-}
+	if (keyboard_check(vk_right) and !instance_place(x+move_speed, y, obj_block)) {
+		if (instance_place(x,y+1,obj_block)){
+			sprite_index = spr_running
+		}
+		x += move_speed
+		image_xscale =1
+	}
 jump_height = -8
-if (keyboard_check(vk_up))
+if (keyboard_check_pressed(vk_up))
 {
 	show_debug_message("Jumping..")
 	if (instance_place(x,y+1,obj_block))
 	{
 		
 		vspeed = jump_height 
+		sprite_index = spr_jump
+		alarm[0] = 10
 		
 	}
 }
@@ -73,5 +81,8 @@ if (keyboard_check_pressed(ord("Z")))
 }
 
 }
+
+
+	
 	
 
